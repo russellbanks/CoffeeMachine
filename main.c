@@ -135,26 +135,30 @@ void reportIngredientsQuantity(CoffeeMachine *pMachine) {
 
 void createCoffeeDialogs(CoffeeMachine *pMachine) {
     int coffeeChoice = 0;
-    while (coffeeChoice != 1 && coffeeChoice != 2 && coffeeChoice != 3) {
-        puts("What coffee would you like to make?");
-        puts("1. Espresso");
-        puts("2. Latte");
-        puts("3. Cappuccino");
-        printf("Enter your choice: ");
-        scanf("%d", &coffeeChoice);
-        if (coffeeChoice != 1 && coffeeChoice != 2 && coffeeChoice != 3) {
-            puts("Invalid choice\n");
+    _Bool shouldContinue = true;
+    while (shouldContinue) {
+        while (coffeeChoice != 1 && coffeeChoice != 2 && coffeeChoice != 3) {
+            puts("What coffee would you like to make?");
+            puts("1. Espresso");
+            puts("2. Latte");
+            puts("3. Cappuccino");
+            printf("Enter your choice: ");
+            scanf("%d", &coffeeChoice);
+            if (coffeeChoice != 1 && coffeeChoice != 2 && coffeeChoice != 3) {
+                puts("Invalid choice\n");
+            }
         }
-    }
-    int coffeeMadeSuccessfully = makeCoffee(pMachine, convertChoiceToDrink(coffeeChoice));
-    if (coffeeMadeSuccessfully != true) reportIngredientsQuantity(pMachine);
-    char continueChoice;
-    printf("Would you like to make another coffee? (y/n): ");
-    scanf(" %c", &continueChoice);
-    if (tolower(continueChoice) == 'y') {
-        createCoffeeDialogs(pMachine);
-    } else {
-        turnOff(pMachine);
+        int coffeeMadeSuccessfully = makeCoffee(pMachine, convertChoiceToDrink(coffeeChoice));
+        if (coffeeMadeSuccessfully != true) reportIngredientsQuantity(pMachine);
+        char continueChoice;
+        printf("Would you like to make another coffee? (y/n): ");
+        scanf(" %c", &continueChoice);
+        if (tolower(continueChoice) == 'y') {
+            coffeeChoice = 0;
+        } else {
+            shouldContinue = false;
+            turnOff(pMachine);
+        }
     }
 }
 
